@@ -35,12 +35,13 @@ class exports.Capped extends Collection
 
   _capped: (models) ->
     models = toArray(models)
-    models.sort (a, b) =>
-      a = this.comparator(a)
-      b = this.comparator(b)
-      if a > b then 1
-      else if a < b then -1
-      else 0
+    unless this.comparator.induced
+      models.sort (a, b) =>
+        a = this.comparator(a)
+        b = this.comparator(b)
+        if a > b then 1
+        else if a < b then -1
+        else 0
     models.slice(0, this.options.cap)
 
   resize: (cap) ->
